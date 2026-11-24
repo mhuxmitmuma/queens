@@ -9,7 +9,13 @@ class Board:
     def __init__(self, regions):
         self.regions = regions
         self.size = len(regions)
+        self.clear()
+
+    def clear(self):
         self.marks = [[Mark.EMPTY for column in range(self.size)] for row in range(self.size)]
+
+    def clear_cell(self, r, c):
+        self.marks[r][c] = Mark.EMPTY
 
     def __str__(self):
         lines = []
@@ -25,3 +31,12 @@ class Board:
                     chars.append(str(self.regions[r][c]))
             lines.append(" ".join(chars))
         return "\n".join(lines)
+
+    def cycle(self, r, c):
+        mark = self.marks[r][c]
+        if mark == Mark.QUEEN:
+            self.marks[r][c] = Mark.EMPTY
+        elif mark == Mark.EX:
+            self.marks[r][c] = Mark.QUEEN
+        else:
+            self.marks[r][c] = Mark.EX
